@@ -1,0 +1,52 @@
+*{/* Todos os elementos terão suas propiedades modificadas */
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    height: 100vh;
+    display: flex;
+    background: lightblue;/* cor do fundo da página */
+}
+
+.memory-game{/* section com todas as divs */
+    width: 640px;
+    height: 640px;
+    margin: auto;/* aqui eu centralizo todo o painel das cartas */
+    display: flex;
+    flex-wrap: wrap;
+    perspective: 1000px;/* aqui adiciono a perspectiva de profundidade para que seja possível fazer o flip da carta com efeito em 3d */
+}
+
+.memory-card{/* divs com as imagens */
+    width: calc(25% - 10px);
+    height: calc(33.333% - 10px);
+    margin: 5px;
+    position: relative;
+    transform: scale(1);/* aqui eu defino o tamanho padrão do elemento antes dele ser "diminuído" */
+    transform-style: preserve-3d;/* aqui adiciono o 3d effect */
+    transition: transform.5s;/* aqui defino o tempo de transição do flip */
+}
+
+.memory-card:active{/* evento acionado sempre que um elemento recuperado seja clicado */
+    transform: scale(.90);/* evento que diminui a escala do elemento quando clicado */
+    transition: transform .2s;/* tempo que demora para o elemento diminuir de tamanho */
+}
+.memory-card.flip{
+    transform: rotateY(180deg);/* define a rotação da carta, como é no eixo Y a carta da um flip */
+}
+
+.front-face,
+.back-face{
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    position: absolute;
+    border-radius: 5px;
+    background: #008cff;/* cor de fundo das cartas */
+    backface-visibility: hidden;/* quando clicado essa propriedade remove a visibilidade da ("back-face") do elemento */
+}
+
+.front-face{
+    transform: rotateY(180deg);/* aqui eu defino que a ("front-face") do elemento vai ser exibida após o clique do usuário, ou seja, um flip ocorrerá*/
+}
