@@ -6,7 +6,7 @@ let lockBoard = false;
 let firstCard, secondCard;
 
 //function imediatamente invocada pos está envolvida em ( ) IIFE (Imediately) Invoked Function Expression
-(function shuffle() {//função que embaralha
+(function embaralhar() {//função que embaralha
     //pego a const que recuperou todos os cards e itero a lista de elementos
     cards.forEach(card => {
         let randomPos = Math.floor(Math.random() * 12);//Math.random() gera um número aleatório, como preciso que o número vá até 12 eu multiplico o valor por 12 e o Math.floor() serve para tornar o resultado inteiro
