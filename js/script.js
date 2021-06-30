@@ -1,79 +1,64 @@
 //Obs: ao logar console.log({variavelDoElemento});// você irá logar a variável e o elemento que ela possui
-const cards = document.querySelectorAll(".memory-card");//todos os elementos que representam os cartões (divs) são acessados armazenados nessa constante
+const cartas = document.querySelectorAll(".memory-card");//todos os elementos que representam os cartões (divs) são acessados armazenados nessa constante
 
-let hasFlippedCard = false;//variável que diz quando a carta é virada, se inicia como false e quando clicada se torna true
-let lockBoard = false;
-let firstCard, secondCard;
+let cartaEstaVirada = false;//variável que diz quando a carta é virada, se inicia como false e quando clicada se torna true
+let travarQuadro = false;
+let primeiraCarta, segundaCarta;
 
-//function imediatamente invocada pos está envolvida em ( ) IIFE (Imediately) Invoked Function Expression
+//function imediatamente invocada pois está envolvida em ( ) IIFE (Imediately) Invoked Function Expression
 (function embaralhar() {//função que embaralha
     //pego a const que recuperou todos os cards e itero a lista de elementos
-    cards.forEach(card => {
-        let randomPos = Math.floor(Math.random() * 12);//Math.random() gera um número aleatório, como preciso que o número vá até 12 eu multiplico o valor por 12 e o Math.floor() serve para tornar o resultado inteiro
-        card.style.order = randomPos;//após gerar os números aleatórios eu atribuo eles as cartas e ordeno de forma aleatória
-    }); 
+    cartas.forEach(carta => {
+        let posicaoAleatoria = Math.floor(Math.random() * 12);//Math.random() gera um número aleatório, como  tenho 12 elementos, multiplico o valor por 12 e o Math.floor() serve para retornar sempre o menor resultado como inteiro
+        carta.style.order = posicaoAleatoria;//após gerar os números aleatórios eu atribuo eles as cartas e ordeno de forma aleatória
+    });
 })();
 
-cards.forEach(card => card.addEventListener("click", flipCard))//aqui eu itero "cards" a lista de elementos recuperados e adiciono o evento de click e a function em todos eles
+cartas.forEach(carta => carta.addEventListener("click", virarCartas))//aqui eu itero "cartas" a lista de elementos recuperados e adiciono o evento de click e a function em todos eles
 
-function flipCard() {
-    if (lockBoard) return;//se for true de um return e pare a execução da function
-    if (this === firstCard) return;//se o usuário clicar duas vezes na mesma carta esse retorno impede que as instruções abaixo travem a carta virada para cima
+function virarCartas() {
+    if (travarQuadro == true) return;//se travarQuadro for true, o "return" para a execução da function e impede o usuário de clicar e virar uma 3º carta
+    if (this === primeiraCarta) return;//se o usuário clicar duas vezes na mesma carta esse return impede a execução da function
 
-    this.classList.toggle("flip");//(this) ao ser clicado o elemento recebe a class flip, caso clique novamente a classe é retirada através do toggle()
-    //console.log(this);//aqui eu faço a impressão do elemento clicado
-    // console.log("Eu cliquei aqui!");
+    this.classList.add("flip");//(this) ao ser clicado o elemento recebe a class flip
 
-    if (!hasFlippedCard) {//se hasFlippedCard for diferente de false, significa que o usuário clicou no elemento
-        //primeiro click
-        hasFlippedCard = true;
-        firstCard = this;//firstCard recebe o elemento que foi clicado
-
+    //primeiro click
+    if (cartaEstaVirada==false) {//cartaEstaVirada inicia como false, se o usuário clicar a condição vai ser atendida e a variável vai passar a ser true
+        cartaEstaVirada = true;
+        primeiraCarta = this;//primeiraCarta recebe o elemento que foi clicado
         return;
     }
-    //segundo click
-    secondCard = this;//secondCard recebe o elemento que foi clicado
-    checkForMatch();
+    //segundo click e a variável cartaEstaVirada já está true
+    segundaCarta = this;//segundaCarta recebe o elemento que foi clicado
+    verificaSeCombinou();
 }
 
-/* 
-function checkForMatch() {//verifica se as cartas viradas combinam
-    //do cards match? as cartas combinam?
-    if (firstCard.dataset.framework === secondCard.dataset.framework) {//se o valor do atributo data- for identico nas duas cartas clicadas o evento de click que aciona a function que "flipa" será removido, impedindo o usuário de virar estas cartas novamente
-        //it's a match!
-        disabledCards();
-    } else {//se o valor do data-framework for diferente nesse bloco eu faço a remoção da classe flip, responsável por mostrar a carta virada
-        //not a match
-        unflipCards();
-    }
-} */
-//Ou, ambos fazem o mesmo
-function checkForMatch() {//verifica se as cartas viradas combinam
-    let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;//essa variável local recebe a condição a ser validada
+function verificaSeCombinou() {//verifica se as cartas viradas combinam
+    let combinou = primeiraCarta.dataset.framework === segundaCarta.dataset.framework;//essa variável local recebe a condição a ser validada
 
     //operador ternário/ if ternário, se a condição da variável for atendida (sendo true) então a primeira function será executada, caso contrário (sendo false) a segunda function será executada
-    isMatch ? disabledCards() : unflipCards();
+    combinou ? cartasCombinadas() : desviraCartas();
 }
 
-function disabledCards() {//remove o evento de click que usa função que flipa a carta
-    firstCard.removeEventListener("click", flipCard);//se o valor do atributo data- for identico nas duas cartas clicadas o evento de click que aciona a function que "flipa" será removido, impedindo o usuário de virar estas cartas novamente
-    secondCard.removeEventListener("click", flipCard);
-    resetBoard();
+function cartasCombinadas() {//remove o evento de click que usa função que flipa a carta
+    primeiraCarta.removeEventListener("click", virarCartas);//se o valor do atributo data- for identico nas duas cartas clicadas o evento de click que aciona a function que "flipa" será removido, impedindo o usuário de virar estas cartas novamente
+    segundaCarta.removeEventListener("click", virarCartas);
+    resetaValores();
 }
 
-function unflipCards() {//desvira as cartas viradas sempre que elas não forem iguais
-    lockBoard = true;
+function desviraCartas() {//desvira as cartas viradas sempre que elas não forem iguais
+    travarQuadro = true;//impede que o usuário selecione uma 3º carta
 
-    setTimeout(() => {
-        firstCard.classList.remove("flip");//aqui
-        secondCard.classList.remove("flip");
+    setTimeout(() => {//as duas cartas clicadas passam um tempo viradas para cima
+        primeiraCarta.classList.remove("flip");//ao remover a classe flip a carta volta ao estado anterior a ser virada
+        segundaCarta.classList.remove("flip");        
 
-        //lockBoard = false;//depois que as cartas forem viradas para baixo essa variável recebe false
-        resetBoard();
+        resetaValores(); //travarQuadro = false;//depois que as cartas forem viradas para baixo essa variável recebe false
+        
     }, 1500);//2º arg representa o tempo que a carta permanecera virada para cima  
 }
 
-function resetBoard() {//reseta 
-    [hasFlippedCard, lockBoard] = [false, false];
-    [firstCard, secondCard] = [null, null];
+function resetaValores() {//reseta 
+    [cartaEstaVirada, travarQuadro] = [false, false];
+    [primeiraCarta, segundaCarta] = [null, null];
 }
