@@ -6,12 +6,12 @@
 body{
     height: 100vh;
     display: flex;
-    background: lightblue;/* cor do fundo da página */
+    background-image: linear-gradient(to top, #0c1074, #0046a4, #0077c8, #00a7e2, #3cd6f6);/* cor do fundo da página */
 }
 
 .memory-game{/* section com todas as divs */
-    width: 640px;
-    height: 640px;
+    width: 640px;/* largura dos cards */
+    height: 640px;/* altura dos cards */
     margin: auto;/* aqui eu centralizo todo o painel das cartas */
     display: flex;
     flex-wrap: wrap;
@@ -43,7 +43,7 @@ body{
     padding: 20px;
     position: absolute;
     border-radius: 5px;
-    background: #008cff;/* cor de fundo das cartas */
+    background: #0000007e;/* cor de fundo das cartas */
     backface-visibility: hidden;/* quando clicado essa propriedade remove a visibilidade da ("back-face") do elemento */
 }
 

@@ -14,7 +14,7 @@ let firstCard, secondCard;
     }); 
 })();
 
-cards.forEach(card => card.addEventListener("click", flipCard))//aqui eu itero a lista de elementos recuperada "cards" e adiciono o evento de click em todos eles
+cards.forEach(card => card.addEventListener("click", flipCard))//aqui eu itero "cards" a lista de elementos recuperados e adiciono o evento de click e a function em todos eles
 
 function flipCard() {
     if (lockBoard) return;//se for true de um return e pare a execução da function
