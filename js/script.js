@@ -6,6 +6,28 @@ let travarQuadro = false;
 let primeiraCarta, segundaCarta;
 let qtdDeErros = 0;//sempre que errar acresce +1
 
+let campoNome = document.querySelector(".campo-nome");//recuperei o elemento pela classe
+let nomeUsuario = "";
+let btnSalvar = document.getElementById("salvar");//recuperei o elemento pelo id
+let btnReiniciar = document.getElementById("reiniciar");//recuperei o elemento pelo id
+
+btnSalvar.addEventListener("click", recebeNomeUsuario);
+btnReiniciar.addEventListener("click", reiniciaJogo);
+
+function recebeNomeUsuario() {
+    // console.log(nome.value);//como recuperar o valor inputado no campo
+    nomeUsuario = campoNome.value;
+    if (nomeUsuario.length == 0) {
+        console.log(`O campo de nome está vazio: [${nomeUsuario}]`);
+    }
+    console.log(nomeUsuario);
+}
+
+function reiniciaJogo() {
+    console.log("Botão reiniciar funcionando");
+}
+
+
 cartas.forEach(carta => carta.addEventListener("click", virarCartas));//aqui eu itero "cartas" e adiciono o evento de click e a function em todos eles
 
 function virarCartas() {
@@ -15,7 +37,7 @@ function virarCartas() {
     this.classList.add("flip");//(this) ao ser clicado o elemento recebe a class flip
 
     //primeiro click
-    if (cartaEstaVirada==false) {//cartaEstaVirada inicia como false, quer dizer que nenhuma carta foi virada
+    if (cartaEstaVirada == false) {//cartaEstaVirada inicia como false, quer dizer que nenhuma carta foi virada
         cartaEstaVirada = true;
         primeiraCarta = this;//primeiraCarta recebe o elemento que foi clicado
         return;
@@ -40,14 +62,14 @@ function cartasCombinadas() {//remove o evento de click que usa função que fli
 
 function desviraCartas() {//desvira as cartas viradas sempre que elas não forem iguais
     travarQuadro = true;//impede que o usuário selecione uma 3º carta
-    qtdDeErros++;
-    console.log("Quantidade de Erros: "+qtdDeErros);
+    contaErros();
+
     setTimeout(() => {//as duas cartas clicadas passam um tempo viradas para cima
         primeiraCarta.classList.remove("flip");//ao remover a classe flip a carta volta ao estado anterior a ser virada
-        segundaCarta.classList.remove("flip");        
+        segundaCarta.classList.remove("flip");
 
         resetaValores(); //travarQuadro = false;//depois que as cartas forem viradas para baixo essa variável recebe false
-        
+
     }, 1500);//2º arg representa o tempo que a carta permanecera virada para cima  
 }
 
@@ -56,7 +78,7 @@ function resetaValores() {//reseta
     [primeiraCarta, segundaCarta] = [null, null];
 }
 
-//function imediatamente invocada pois está envolvida em ( ) IIFE (Imediately) Invoked Function Expression
+//function imediatamente invocada pois está envolvida em ( ) IIFE (Immediately Invoked Function Expression)
 (function embaralhar() {//função que embaralha
     //pego a const que recuperou todos os cards e itero a lista de elementos
     cartas.forEach(carta => {
@@ -64,8 +86,13 @@ function resetaValores() {//reseta
         carta.style.order = posicaoAleatoria;//após gerar os números aleatórios eu atribuo eles as cartas e ordeno de forma aleatória
         carta.classList.add("flip");
     });
-    setTimeout(function(){//aqui eu exibo todas as cartas durante 1,5 s logo após elas terem sido embaralhadas
+    setTimeout(function () {//aqui eu exibo todas as cartas durante 1,5 s logo após elas terem sido embaralhadas
         // alert("Parabéns por acessar o site");
         cartas.forEach(carta => carta.classList.remove("flip"));
-    }, 1500);    
+    }, 1500);
 })();
+
+function contaErros() {
+    qtdDeErros++;
+    console.log("Quantidade de Erros: " + qtdDeErros);
+}

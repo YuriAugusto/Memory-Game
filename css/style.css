@@ -12,10 +12,24 @@ body{
 .memory-game{/* section com todas as divs */
     width: 640px;/* largura dos cards */
     height: 640px;/* altura dos cards */
-    margin: auto;/* aqui eu centralizo todo o painel das cartas */
+    margin: auto;/* aqui eu centralizo todo o painel das cartas */    
+    perspective: 1000px;/* aqui adiciono a perspectiva de profundidade para que seja possível fazer o flip da carta com efeito em 3d */
+}
+
+.container{/* div do input nome */
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 21px;
+}
+.campo-nome,#salvar,#reiniciar{
+    font-size: 21px;
+}
+
+.div-painel{
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-wrap: wrap;
-    perspective: 1000px;/* aqui adiciono a perspectiva de profundidade para que seja possível fazer o flip da carta com efeito em 3d */
 }
 
 .memory-card{/* divs com as imagens */
