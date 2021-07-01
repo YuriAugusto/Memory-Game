@@ -23,11 +23,6 @@ function recebeNomeUsuario() {
     console.log(nomeUsuario);
 }
 
-function reiniciaJogo() {
-    console.log("Botão reiniciar funcionando");
-}
-
-
 cartas.forEach(carta => carta.addEventListener("click", virarCartas));//aqui eu itero "cartas" e adiciono o evento de click e a function em todos eles
 
 function virarCartas() {
@@ -49,7 +44,6 @@ function virarCartas() {
 
 function verificaSeCombinou() {//verifica se as cartas viradas combinam
     let combinou = primeiraCarta.dataset.framework === segundaCarta.dataset.framework;//essa variável local recebe a condição a ser validada
-
     //operador ternário/ if ternário, se a condição da variável for atendida (sendo true) então a primeira function será executada, caso contrário (sendo false) a segunda function será executada
     combinou ? cartasCombinadas() : desviraCartas();
 }
@@ -58,6 +52,7 @@ function cartasCombinadas() {//remove o evento de click que usa função que fli
     primeiraCarta.removeEventListener("click", virarCartas);//se o valor do atributo data- for identico nas duas cartas clicadas o evento de click que aciona a function que "flipa" será removido, impedindo o usuário de virar estas cartas novamente
     segundaCarta.removeEventListener("click", virarCartas);
     resetaValores();
+    exibirResultadoFinal();
 }
 
 function desviraCartas() {//desvira as cartas viradas sempre que elas não forem iguais
@@ -78,8 +73,7 @@ function resetaValores() {//reseta
     [primeiraCarta, segundaCarta] = [null, null];
 }
 
-//function imediatamente invocada pois está envolvida em ( ) IIFE (Immediately Invoked Function Expression)
-(function embaralhar() {//função que embaralha
+function embaralhar() {//função que embaralha
     //pego a const que recuperou todos os cards e itero a lista de elementos
     cartas.forEach(carta => {
         let posicaoAleatoria = Math.floor(Math.random() * 12);//Math.random() gera um número aleatório, como  tenho 12 elementos, multiplico o valor por 12 e o Math.floor() serve para retornar sempre o menor resultado como inteiro
@@ -90,9 +84,28 @@ function resetaValores() {//reseta
         // alert("Parabéns por acessar o site");
         cartas.forEach(carta => carta.classList.remove("flip"));
     }, 1500);
-})();
+};
+
+function reiniciaJogo() {
+    console.log("Botão reiniciar funcionando");
+    embaralhar();
+    nomeUsuario = "";
+}
 
 function contaErros() {
     qtdDeErros++;
     console.log("Quantidade de Erros: " + qtdDeErros);
 }
+
+function exibirResultadoFinal() {
+    let quantidadeCartasViradas = document.querySelectorAll(".memory-card.flip");
+    if (quantidadeCartasViradas.length == 12) {
+        console.log("Cartas encontradas: " + quantidadeCartasViradas.length);
+        console.log("Parabéns você ganhou: " + nomeUsuario);
+    }
+}
+
+//executada assim que a página carrega
+(function () {//IIFE (Immediately Invoked Function Expression) é uma função em JavaScript que é executada assim que definida e executa apenas uma vez a cada vez que a página carrega.
+    reiniciaJogo();
+})();
