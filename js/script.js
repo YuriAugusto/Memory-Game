@@ -18,7 +18,7 @@ function recebeNomeUsuario() {
     // console.log(nome.value);//como recuperar o valor inputado no campo
     nomeUsuario = campoNome.value;
     if (nomeUsuario.length == 0) {
-        console.log(`O campo de nome está vazio: [${nomeUsuario}]`);
+        console.log(`O campo de nome está vazio: [${nomeUsuario}] empty`);
     }
     console.log(nomeUsuario);
 }
