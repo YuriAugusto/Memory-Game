@@ -32,7 +32,7 @@ body{
     transform: scale(.90);/* evento que diminui a escala do elemento quando clicado */
     transition: transform .2s;/* tempo que demora para o elemento diminuir de tamanho */
 }
-.memory-card.flip{
+.memory-card.flip{/* ao ser clicado, o elemendo tem a classe flip adicionada, e quando ela é adicionada o elemento vira 180º, ou seja flipa */
     transform: rotateY(180deg);/* define a rotação da carta, como é no eixo Y a carta da um flip */
 }
 

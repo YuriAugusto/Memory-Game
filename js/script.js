@@ -4,17 +4,9 @@ const cartas = document.querySelectorAll(".memory-card");//todos os elementos qu
 let cartaEstaVirada = false;//variável que diz quando a carta é virada, se inicia como false e quando clicada se torna true
 let travarQuadro = false;
 let primeiraCarta, segundaCarta;
+let qtdDeErros = 0;//sempre que errar acresce +1
 
-//function imediatamente invocada pois está envolvida em ( ) IIFE (Imediately) Invoked Function Expression
-(function embaralhar() {//função que embaralha
-    //pego a const que recuperou todos os cards e itero a lista de elementos
-    cartas.forEach(carta => {
-        let posicaoAleatoria = Math.floor(Math.random() * 12);//Math.random() gera um número aleatório, como  tenho 12 elementos, multiplico o valor por 12 e o Math.floor() serve para retornar sempre o menor resultado como inteiro
-        carta.style.order = posicaoAleatoria;//após gerar os números aleatórios eu atribuo eles as cartas e ordeno de forma aleatória
-    });
-})();
-
-cartas.forEach(carta => carta.addEventListener("click", virarCartas))//aqui eu itero "cartas" a lista de elementos recuperados e adiciono o evento de click e a function em todos eles
+cartas.forEach(carta => carta.addEventListener("click", virarCartas));//aqui eu itero "cartas" e adiciono o evento de click e a function em todos eles
 
 function virarCartas() {
     if (travarQuadro == true) return;//se travarQuadro for true, o "return" para a execução da function e impede o usuário de clicar e virar uma 3º carta
@@ -23,7 +15,7 @@ function virarCartas() {
     this.classList.add("flip");//(this) ao ser clicado o elemento recebe a class flip
 
     //primeiro click
-    if (cartaEstaVirada==false) {//cartaEstaVirada inicia como false, se o usuário clicar a condição vai ser atendida e a variável vai passar a ser true
+    if (cartaEstaVirada==false) {//cartaEstaVirada inicia como false, quer dizer que nenhuma carta foi virada
         cartaEstaVirada = true;
         primeiraCarta = this;//primeiraCarta recebe o elemento que foi clicado
         return;
@@ -48,7 +40,8 @@ function cartasCombinadas() {//remove o evento de click que usa função que fli
 
 function desviraCartas() {//desvira as cartas viradas sempre que elas não forem iguais
     travarQuadro = true;//impede que o usuário selecione uma 3º carta
-
+    qtdDeErros++;
+    console.log("Quantidade de Erros: "+qtdDeErros);
     setTimeout(() => {//as duas cartas clicadas passam um tempo viradas para cima
         primeiraCarta.classList.remove("flip");//ao remover a classe flip a carta volta ao estado anterior a ser virada
         segundaCarta.classList.remove("flip");        
@@ -62,3 +55,17 @@ function resetaValores() {//reseta
     [cartaEstaVirada, travarQuadro] = [false, false];
     [primeiraCarta, segundaCarta] = [null, null];
 }
+
+//function imediatamente invocada pois está envolvida em ( ) IIFE (Imediately) Invoked Function Expression
+(function embaralhar() {//função que embaralha
+    //pego a const que recuperou todos os cards e itero a lista de elementos
+    cartas.forEach(carta => {
+        let posicaoAleatoria = Math.floor(Math.random() * 12);//Math.random() gera um número aleatório, como  tenho 12 elementos, multiplico o valor por 12 e o Math.floor() serve para retornar sempre o menor resultado como inteiro
+        carta.style.order = posicaoAleatoria;//após gerar os números aleatórios eu atribuo eles as cartas e ordeno de forma aleatória
+        carta.classList.add("flip");
+    });
+    setTimeout(function(){//aqui eu exibo todas as cartas durante 1,5 s logo após elas terem sido embaralhadas
+        // alert("Parabéns por acessar o site");
+        cartas.forEach(carta => carta.classList.remove("flip"));
+    }, 1500);    
+})();
