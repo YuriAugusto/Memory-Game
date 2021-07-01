@@ -87,9 +87,10 @@ function embaralhar() {//função que embaralha
 };
 
 function reiniciaJogo() {
-    console.log("Botão reiniciar funcionando");
     embaralhar();
+    excluiMensagem();
     nomeUsuario = "";
+    qtdDeErros = 0;
 }
 
 function contaErros() {
@@ -102,6 +103,24 @@ function exibirResultadoFinal() {
     if (quantidadeCartasViradas.length == 12) {
         console.log("Cartas encontradas: " + quantidadeCartasViradas.length);
         console.log("Parabéns você ganhou: " + nomeUsuario);
+        criaMensagem();
+    }
+}
+
+let criaDiv = null;
+function criaMensagem(){
+    // let criaDiv = document.createElement("div");
+    criaDiv = document.createElement("div");
+    criaDiv.classList.add("resultado-final");
+    let mensagem = document.createTextNode(`Parabéns (${nomeUsuario}) você finalizou o jogo com (${qtdDeErros}) erros!`);
+    criaDiv.appendChild(mensagem);//adicionei a mensagem a div
+    let divContainer = document.querySelector(".container");//recuperei o elemento a inserir a div abaixo
+    divContainer.appendChild(criaDiv);//acrescentei a criaDiv a divContainer
+}
+
+function excluiMensagem(){
+    if(criaDiv!= null){
+        criaDiv.remove();
     }
 }
 

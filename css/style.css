@@ -10,19 +10,27 @@ body{
 }
 
 .memory-game{/* section com todas as divs */
-    width: 640px;/* largura dos cards */
     height: 640px;/* altura dos cards */
+    width: 640px;/* largura dos cards */
     margin: auto;/* aqui eu centralizo todo o painel das cartas */    
     perspective: 1000px;/* aqui adiciono a perspectiva de profundidade para que seja possível fazer o flip da carta com efeito em 3d */
 }
 
 .container{/* div do input nome */
     text-align: center;
-    margin-bottom: 30px;
     font-size: 21px;
+    margin-bottom: 20px;
 }
+
 .campo-nome,#salvar,#reiniciar{
     font-size: 21px;
+}
+
+.resultado-final{
+    margin-top: 20px;
+    text-align: center;
+    font-size: 21px;
+    margin-bottom: 20px;
 }
 
 .div-painel{
@@ -46,6 +54,7 @@ body{
     transform: scale(.90);/* evento que diminui a escala do elemento quando clicado */
     transition: transform .2s;/* tempo que demora para o elemento diminuir de tamanho */
 }
+
 .memory-card.flip{/* ao ser clicado, o elemendo tem a classe flip adicionada, e quando ela é adicionada o elemento vira 180º, ou seja flipa */
     transform: rotateY(180deg);/* define a rotação da carta, como é no eixo Y a carta da um flip */
 }
