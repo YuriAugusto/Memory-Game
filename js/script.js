@@ -18,9 +18,8 @@ function recebeNomeUsuario() {
     // console.log(nome.value);//como recuperar o valor inputado no campo
     nomeUsuario = campoNome.value;
     if (nomeUsuario.length == 0) {
-        console.log(`O campo de nome está vazio: [${nomeUsuario}] empty`);
+        nomeUsuario = "nome não preenchido";
     }
-    console.log(nomeUsuario);
 }
 
 cartas.forEach(carta => carta.addEventListener("click", virarCartas));//aqui eu itero "cartas" e adiciono o evento de click e a function em todos eles
@@ -95,14 +94,11 @@ function reiniciaJogo() {
 
 function contaErros() {
     qtdDeErros++;
-    console.log("Quantidade de Erros: " + qtdDeErros);
 }
 
 function exibirResultadoFinal() {
     let quantidadeCartasViradas = document.querySelectorAll(".memory-card.flip");
     if (quantidadeCartasViradas.length == 12) {
-        console.log("Cartas encontradas: " + quantidadeCartasViradas.length);
-        console.log("Parabéns você ganhou: " + nomeUsuario);
         criaMensagem();
     }
 }
