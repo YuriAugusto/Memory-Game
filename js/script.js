@@ -16,6 +16,7 @@ btnReiniciar.addEventListener("click", reiniciaJogo);
 
 function recebeNomeUsuario() {
     nomeUsuario = campoNome.value;
+    campoNome.readOnly = true;//após selecionar o btn salvar eu defino o campo como readonly
 }
 
 function adicionaEventoDeClick() {
@@ -62,7 +63,7 @@ function desviraCartas() {//desvira as cartas viradas sempre que elas não forem
 
         resetaValores(); //travarQuadro = false;//depois que as cartas forem viradas para baixo essa variável recebe false
 
-    }, 1500);//2º arg representa o tempo que a carta permanecera virada para cima  
+    }, 1500);//2º arg representa o tempo que a carta permanecerá virada para cima  
 }
 
 function resetaValores() {//reseta 
@@ -90,6 +91,7 @@ function reiniciaJogo() {
     excluirMensagem();
     nomeUsuario = "";
     qtdDeErros = 0;
+    campoNome.readOnly = false;
 }
 
 function contaErros() {
@@ -105,6 +107,7 @@ function exibirResultadoFinal() {
 
 let criaDiv = null;
 function criaMensagem() {
+
     if (nomeUsuario.length == 0) {
         nomeUsuario = "nome não preenchido";
     }
