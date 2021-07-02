@@ -15,14 +15,12 @@ btnSalvar.addEventListener("click", recebeNomeUsuario);
 btnReiniciar.addEventListener("click", reiniciaJogo);
 
 function recebeNomeUsuario() {
-    // console.log(nome.value);//como recuperar o valor inputado no campo
     nomeUsuario = campoNome.value;
-    if (nomeUsuario.length == 0) {
-        nomeUsuario = "nome não preenchido";
-    }
 }
 
-cartas.forEach(carta => carta.addEventListener("click", virarCartas));//aqui eu itero "cartas" e adiciono o evento de click e a function em todos eles
+function adicionaEventoDeClick() {
+    cartas.forEach(carta => carta.addEventListener("click", virarCartas));//aqui eu itero "cartas" e adiciono o evento de click e a function em todos eles
+}
 
 function virarCartas() {
     if (travarQuadro == true) return;//se travarQuadro for true, o "return" para a execução da function e impede o usuário de clicar e virar uma 3º carta
@@ -86,8 +84,10 @@ function embaralhar() {//função que embaralha
 };
 
 function reiniciaJogo() {
+    // cartas.forEach(carta => carta.addEventListener("click", virarCartas));
+    adicionaEventoDeClick();
     embaralhar();
-    excluiMensagem();
+    excluirMensagem();
     nomeUsuario = "";
     qtdDeErros = 0;
 }
@@ -97,25 +97,28 @@ function contaErros() {
 }
 
 function exibirResultadoFinal() {
-    let quantidadeCartasViradas = document.querySelectorAll(".memory-card.flip");
+    let quantidadeCartasViradas = document.querySelectorAll(".memory-card.flip");//se todas as cartas já tiverem sido viradas exibe mensagem
     if (quantidadeCartasViradas.length == 12) {
         criaMensagem();
     }
 }
 
 let criaDiv = null;
-function criaMensagem(){
-    // let criaDiv = document.createElement("div");
+function criaMensagem() {
+    if (nomeUsuario.length == 0) {
+        nomeUsuario = "nome não preenchido";
+    }
+
     criaDiv = document.createElement("div");
     criaDiv.classList.add("resultado-final");
-    let mensagem = document.createTextNode(`Parabéns (${nomeUsuario}) você finalizou o jogo com (${qtdDeErros}) erros!`);
+    let mensagem = document.createTextNode(`Parabéns "${nomeUsuario}" você finalizou o jogo com [${qtdDeErros}] erros!`);
     criaDiv.appendChild(mensagem);//adicionei a mensagem a div
     let divContainer = document.querySelector(".container");//recuperei o elemento a inserir a div abaixo
     divContainer.appendChild(criaDiv);//acrescentei a criaDiv a divContainer
 }
 
-function excluiMensagem(){
-    if(criaDiv!= null){
+function excluirMensagem() {
+    if (criaDiv != null) {
         criaDiv.remove();
     }
 }
